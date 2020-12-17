@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import MyNavLink from "../components/my-nav-link";
 import {Route} from 'react-router-dom'
 import MessageDetail from "./message-detail";
+
 class Message extends Component {
     state = {
         messagesArr: []
@@ -32,6 +33,23 @@ class Message extends Component {
         }, 1000)
     }
 
+    showDetail1 = (id) => {
+        this.props.history.push(`/home/message/messageDetail/${id}`)
+    };
+    showDetail2 = (id) => {
+        this.props.history.replace(`/home/message/messageDetail/${id}`)
+    };
+    rollback = () => {
+        this.props.history.goBack()
+    };
+    forward = () => {
+        this.props.history.goForward()
+    };
+    reqPage = () => {
+        // 通过js进行页面跳转
+        window.location = 'http://www.baidu.com'
+    };
+
     render() {
         return (
             <div>
@@ -40,15 +58,26 @@ class Message extends Component {
                         this.state.messagesArr.map((item, index) => {
                             return (
                                 <li key={index}>
-                                    <MyNavLink to={`/home/message/messageDetail/${item.id}`} >{item.title}</MyNavLink>
+                                    <MyNavLink to={`/home/message/messageDetail/${item.id}`}>{item.title}</MyNavLink>
+                                    &nbsp;
+                                    <button onClick={() => this.showDetail1(item.id)}>push方式查看</button>
+                                    &nbsp;
+                                    <button onClick={() => this.showDetail2(item.id)}>replace方式查看</button>
                                 </li>
                             )
                         })
                     }
                 </ul>
-              <div className="panel">
-                  <Route path='/home/message/messageDetail/:id' component={MessageDetail}/>
-              </div>
+                <p>
+                    <button onClick={this.rollback}>回退</button>
+                    <button onClick={this.forward}>前进</button>
+                </p>
+                <p>
+                    <button onClick={this.reqPage}>页面跳转</button>
+                </p>
+                <div className="panel">
+                    <Route path='/home/message/messageDetail/:id' component={MessageDetail}/>
+                </div>
             </div>
         );
     }
