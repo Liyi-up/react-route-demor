@@ -1,11 +1,10 @@
 import React, {Component} from "react";
 import MyNavLink from "../components/my-nav-link";
-import {Route} from  'react-router-dom'
+import {Route} from 'react-router-dom'
+import MessageDetail from "./message-detail";
 class Message extends Component {
     state = {
-        messagesArr: [
-
-        ]
+        messagesArr: []
     };
     static propTypes = {};
 
@@ -35,18 +34,23 @@ class Message extends Component {
 
     render() {
         return (
-            <ul>
-                {
-                    this.state.messagesArr.map((item, index) => {
-                        return (
-                            <li>
-                                <MyNavLink href={`/home/message/messageDetail/${item.id}`}>{item.title}</MyNavLink>
-                            </li>
-                        )
-                    })
-                }
-            </ul>
-        )
+            <div>
+                <ul>
+                    {
+                        this.state.messagesArr.map((item, index) => {
+                            return (
+                                <li key={index}>
+                                    <MyNavLink to={`/home/message/messageDetail/${item.id}`} >{item.title}</MyNavLink>
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
+              <div className="panel">
+                  <Route path='/home/message/messageDetail/:id' component={MessageDetail}/>
+              </div>
+            </div>
+        );
     }
 }
 
